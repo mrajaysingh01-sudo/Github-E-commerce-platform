@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Nexus | Premium Tech Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+<!-- UPDATED NAVBAR WITH CART AND MY ORDERS -->
+<nav class="bg-gray-900 text-white p-3 flex items-center justify-between shadow-lg">
+  <a href="/" class="flex items-center gap-2 mx-4"><i class="fa-solid fa-microchip text-yellow-400 text-2xl"></i><span class="font-bold text-xl">NEXUS</span></a>
+
+  <form action="/" method="get" class="flex-1 max-w-2xl mx-6 hidden md:flex bg-white rounded overflow-hidden">
+    <input type="text" name="search" placeholder="Search products..." class="flex-1 px-4 py-2 text-black outline-none">
+    <button type="submit" class="bg-yellow-400 px-6 text-black hover:bg-yellow-500 transition"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </form>
+
+  <div class="flex items-center gap-6 mr-4">
+    <a href="/my-orders" class="font-bold hover:text-yellow-400 text-sm transition"><i class="fa-solid fa-box mr-1"></i> My Orders</a>
+    <a href="/cart" class="font-bold hover:text-yellow-400 text-sm transition"><i class="fa-solid fa-cart-shopping mr-1"></i> Cart</a>
+    <form th:action="@{/logout}" method="post"><button class="font-bold hover:text-yellow-400 text-sm">Log Out</button></form>
+  </div>
+</nav>
+
+<div class="bg-gray-800 text-white text-sm px-4 py-2 flex gap-6 shadow-md overflow-x-auto">
+  <a href="/" class="hover:text-yellow-400 font-bold whitespace-nowrap">All</a>
+  <a href="/?category=Electronics" class="hover:text-yellow-400 whitespace-nowrap">Electronics</a>
+  <a href="/?category=Earbuds" class="hover:text-yellow-400 whitespace-nowrap">Earbuds</a>
+  <a href="/?category=Laptop" class="hover:text-yellow-400 whitespace-nowrap">Laptop</a>
+  <a href="/?category=Accessories" class="hover:text-yellow-400 whitespace-nowrap">Accessories</a>
+  <a href="/?category=Clothes" class="hover:text-yellow-400 whitespace-nowrap">Clothes</a>
+  <a href="/?category=Toys" class="hover:text-yellow-400 whitespace-nowrap">Toys</a>
+  <a href="/?category=Stationery" class="hover:text-yellow-400 whitespace-nowrap">Stationery</a>
+</div>
+
+<div class="max-w-screen-2xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+
+  <div class="w-full md:w-64 flex-shrink-0 bg-white p-5 rounded-lg border border-gray-200 shadow-sm h-fit">
+    <h3 class="font-bold text-lg mb-4 text-gray-800">Refine Results</h3>
+    <form action="/" method="get">
+      <div class="mb-5">
+        <label class="block text-sm font-bold mb-2">Category</label>
+        <select name="category" class="w-full border p-2 rounded-md outline-none">
+          <option value="All">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Earbuds">Earbuds</option>
+          <option value="Laptop">Laptop</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Toys">Toys</option>
+          <option value="Stationery">Stationery</option>
+        </select>
+      </div>
+      <div class="mb-5">
+        <label class="block text-sm font-bold mb-2">Customer Reviews</label>
+        <select name="minRating" class="w-full border p-2 rounded-md outline-none">
+          <option value="0">All Ratings</option>
+          <option value="4">4+ Stars</option>
+          <option value="3">3+ Stars</option>
+        </select>
+      </div>
+      <div class="mb-5">
+        <label class="block text-sm font-bold mb-2">Price Sort</label>
+        <select name="sort" class="w-full border p-2 rounded-md outline-none">
+          <option value="">Default</option>
+          <option value="low">Low to High</option>
+          <option value="high">High to Low</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-gray-900 text-white font-bold py-2 rounded-md shadow">Apply Filters</button>
+    </form>
+  </div>
+
+  <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <a th:each="product : ${products}" th:href="@{/product/{id}(id=${product.id})}" class="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition duration-300 cursor-pointer block">
+      <div class="bg-gray-100 h-48 w-full overflow-hidden border-b border-gray-100">
+        <img th:src="${product.imageUrl}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+      </div>
+      <div class="p-4 flex flex-col flex-grow">
+        <h3 th:text="${product.name}" class="font-bold text-lg leading-tight mb-1 text-gray-900 line-clamp-2"></h3>
+        <span th:text="${product.category}" class="text-xs text-blue-600 font-semibold mb-3"></span>
+
+        <div class="flex items-center gap-1 mb-3">
+          <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+          <span th:text="${productRatings.get(product.id)}" class="text-sm font-bold text-gray-700"></span>
+          <span th:text="'(' + ${productReviewCounts.get(product.id)} + ')'" class="text-xs text-gray-500 ml-1"></span>
+        </div>
+
+        <div class="text-2xl font-black mb-4 text-gray-900 mt-auto" th:text="'$' + ${product.price}"></div>
+        <div class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 text-center font-bold py-2 rounded-full shadow-sm transition">View Details</div>
+      </div>
+    </a>
+  </div>
+</div>
+</body>
+</html>

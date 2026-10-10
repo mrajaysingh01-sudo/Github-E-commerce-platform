@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Seller Central</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+<nav class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-md">
+  <h1 class="font-bold text-xl"><i class="fa-solid fa-store mr-2"></i>Nexus Seller Central</h1>
+  <form th:action="@{/logout}" method="post"><button type="submit" class="bg-blue-800 hover:bg-blue-700 px-4 py-2 rounded">Log Out</button></form>
+</nav>
+<div class="max-w-6xl mx-auto p-6 mt-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">My Inventory</h2>
+    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow"><i class="fa-solid fa-plus mr-2"></i>Add New Product</button>
+  </div>
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-left border-collapse">
+      <thead class="bg-gray-50 text-gray-700">
+      <tr><th class="p-4 border-b">Product Name</th><th class="p-4 border-b">Category</th><th class="p-4 border-b">Price</th><th class="p-4 border-b">Stock</th></tr>
+      </thead>
+      <tbody>
+      <tr th:each="product : ${products}" class="hover:bg-gray-50 border-b">
+        <td class="p-4 font-semibold text-gray-900" th:text="${product.name}">Name</td>
+        <td class="p-4 text-gray-600" th:text="${product.category}">Category</td>
+        <td class="p-4 text-green-600 font-bold" th:text="'$' + ${product.price}">$0.00</td>
+        <td class="p-4 text-gray-600" th:text="${product.stockQuantity}">0</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

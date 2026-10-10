@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Order Successful</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f9; text-align: center; }
+    h1 { color: #28a745; }
+    a { display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+<h1>🎉 Order Placed Successfully!</h1>
+<p>Your mock transaction has been recorded in the MySQL database.</p>
+<a th:href="@{/}">Return to Storefront</a>
+</body>
+</html>

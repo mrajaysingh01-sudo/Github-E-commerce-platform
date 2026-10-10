@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nexus Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-white flex min-h-screen">
+
+<!-- Left Side: Engaging Brand Graphic -->
+<div class="hidden lg:flex lg:w-1/2 bg-gray-900 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop');">
+    <div class="absolute inset-0 bg-gray-900/70 bg-gradient-to-t from-gray-900 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 p-16 text-white">
+        <div class="flex items-center gap-3 mb-4">
+            <i class="fa-solid fa-microchip text-yellow-400 text-4xl"></i>
+            <span class="font-bold text-4xl tracking-wider">NEXUS</span>
+        </div>
+        <h1 class="text-3xl font-bold mb-2">The Future of Tech Retail.</h1>
+        <p class="text-gray-300 text-lg max-w-md">Access premium laptops, electronics, and accessories with next-day delivery and unbeatable prices.</p>
+    </div>
+</div>
+
+<!-- Right Side: Login Form -->
+<div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 bg-gray-50">
+    <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+
+        <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+            <i class="fa-solid fa-microchip text-yellow-500 text-3xl"></i>
+            <span class="font-bold text-3xl tracking-wider text-gray-900">NEXUS</span>
+        </div>
+
+        <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
+        <p class="text-gray-500 mb-8">Please enter your details to sign in.</p>
+
+        <div th:if="${param.error}" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6 text-sm flex items-center"><i class="fa-solid fa-circle-exclamation mr-2"></i>Invalid credentials.</div>
+        <div th:if="${param.logout}" class="bg-gray-50 border-l-4 border-gray-500 text-gray-700 p-4 rounded-md mb-6 text-sm flex items-center"><i class="fa-solid fa-check mr-2"></i>You have been logged out.</div>
+        <div th:if="${param.registered}" class="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-md mb-6 text-sm flex items-center"><i class="fa-solid fa-circle-check mr-2"></i>Account created successfully!</div>
+
+        <form th:action="@{/login}" method="post" class="space-y-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Email address</label>
+                <input type="email" name="username" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition" placeholder="Enter your email" required autofocus>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                <input type="password" name="password" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition" placeholder="••••••••" required>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="flex items-center text-sm text-gray-600"><input type="checkbox" class="mr-2 rounded text-yellow-500 focus:ring-yellow-500"> Remember me</label>
+                <a href="#" class="text-sm font-semibold text-yellow-600 hover:text-yellow-500">Forgot password?</a>
+            </div>
+            <button type="submit" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-lg shadow-md transition">Sign In</button>
+        </form>
+
+        <div class="mt-8 text-center text-sm text-gray-500">
+            Don't have an account? <a th:href="@{/signup}" class="text-gray-900 font-bold hover:underline">Sign up for free</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

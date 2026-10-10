@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${product.name}">Product Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+<!-- UPDATED NAVBAR WITH CART AND MY ORDERS -->
+<nav class="bg-gray-900 text-white p-3 flex items-center justify-between shadow-lg">
+  <a href="/" class="flex items-center gap-2 mx-4"><i class="fa-solid fa-microchip text-yellow-400 text-2xl"></i><span class="font-bold text-xl">NEXUS</span></a>
+
+  <form action="/" method="get" class="flex-1 max-w-2xl mx-6 hidden md:flex bg-white rounded overflow-hidden">
+    <input type="text" name="search" placeholder="Search products..." class="flex-1 px-4 py-2 text-black outline-none">
+    <button type="submit" class="bg-yellow-400 px-6 text-black hover:bg-yellow-500 transition"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </form>
+
+  <div class="flex items-center gap-6 mr-4">
+    <a href="/my-orders" class="font-bold hover:text-yellow-400 text-sm transition"><i class="fa-solid fa-box mr-1"></i> My Orders</a>
+    <a href="/cart" class="font-bold hover:text-yellow-400 text-sm transition"><i class="fa-solid fa-cart-shopping mr-1"></i> Cart</a>
+    <form th:action="@{/logout}" method="post"><button class="font-bold hover:text-yellow-400 text-sm">Log Out</button></form>
+  </div>
+</nav>
+
+<div class="max-w-screen-xl mx-auto px-4 py-8">
+  <a href="/" class="text-blue-600 hover:underline mb-6 inline-block"><i class="fa-solid fa-arrow-left mr-2"></i>Back to Products</a>
+
+  <!-- Product View -->
+  <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row gap-10 mb-10">
+    <div class="w-full md:w-1/2">
+      <img th:src="${product.imageUrl}" class="w-full h-96 object-cover rounded-lg shadow-md border border-gray-100">
+    </div>
+    <div class="w-full md:w-1/2 flex flex-col">
+      <span th:text="${product.category}" class="text-sm text-blue-600 font-bold uppercase tracking-wider mb-2"></span>
+      <h1 th:text="${product.name}" class="text-3xl font-black mb-4"></h1>
+
+      <div class="flex items-center gap-2 mb-6 border-b pb-6">
+        <i class="fa-solid fa-star text-yellow-400 text-xl"></i>
+        <span th:text="${averageRating}" class="text-xl font-bold"></span>
+        <span th:text="'(' + ${reviewCount} + ' customer reviews)'" class="text-gray-500 ml-2"></span>
+      </div>
+
+      <p th:text="${product.description}" class="text-gray-700 text-lg mb-8 leading-relaxed"></p>
+      <div class="text-4xl font-black text-gray-900 mb-8" th:text="'$' + ${product.price}"></div>
+
+      <!-- NOTE: The 'Buy Now' button routes to the cart now to support multiple items -->
+      <a th:href="@{/checkout/{id}(id=${product.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 text-center font-bold text-lg py-4 rounded-full shadow-md transition w-full md:w-2/3"><i class="fa-solid fa-cart-shopping mr-2"></i>Add to Cart</a>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+    <div class="lg:col-span-1">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
+        <h3 class="text-xl font-bold mb-4">Write a Review</h3>
+        <form th:action="@{/product/{id}/review(id=${product.id})}" method="post" class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold mb-1">Your Name</label>
+            <input type="text" name="name" class="w-full border p-2 rounded outline-none" required>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-1">Rating (1-5)</label>
+            <select name="rating" class="w-full border p-2 rounded outline-none">
+              <option value="5">5 Stars - Excellent</option>
+              <option value="4">4 Stars - Good</option>
+              <option value="3">3 Stars - Average</option>
+              <option value="2">2 Stars - Poor</option>
+              <option value="1">1 Star - Terrible</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-1">Your Review</label>
+            <textarea name="comment" rows="4" class="w-full border p-2 rounded outline-none" required></textarea>
+          </div>
+          <button type="submit" class="w-full bg-gray-900 text-white font-bold py-2 rounded shadow">Submit Review</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 space-y-6">
+      <h3 class="text-2xl font-bold mb-6">Customer Reviews</h3>
+      <div th:each="review : ${reviews}" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div class="flex justify-between items-center mb-2">
+          <div class="flex items-center gap-3">
+            <div class="bg-gray-200 text-gray-700 font-bold w-10 h-10 rounded-full flex items-center justify-center" th:text="${#strings.substring(review.name, 0, 1)}"></div>
+            <span th:text="${review.name}" class="font-bold text-gray-900"></span>
+          </div>
+          <span th:text="${review.date}" class="text-sm text-gray-500"></span>
+        </div>
+        <div class="text-yellow-400 text-sm mb-3">
+          <i th:each="i : ${#numbers.sequence(1, review.rating)}" class="fa-solid fa-star"></i>
+          <i th:if="${review.rating < 5}" th:each="i : ${#numbers.sequence(1, 5 - review.rating)}" class="fa-regular fa-star text-gray-300"></i>
+        </div>
+        <p th:text="${review.comment}" class="text-gray-700"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

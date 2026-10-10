@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Secure Checkout | Nexus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+<nav class="bg-gray-900 text-white p-4 text-center shadow-lg">
+  <span class="font-bold text-2xl tracking-widest"><i class="fa-solid fa-lock text-yellow-400 mr-2"></i>SECURE CHECKOUT</span>
+</nav>
+
+<div class="max-w-2xl mx-auto px-4 py-10">
+  <form th:action="@{/process-order}" method="post" class="bg-white p-8 rounded-xl shadow-xl border border-gray-200">
+    <h2 class="text-2xl font-black mb-6 border-b pb-4"><i class="fa-solid fa-truck-fast mr-2"></i>Shipping & Payment</h2>
+
+    <div class="mb-6">
+      <label class="block text-sm font-bold mb-2">Delivery Address</label>
+      <textarea name="address" rows="3" class="w-full border-2 border-gray-300 p-3 rounded-lg outline-none focus:border-blue-500 transition" placeholder="Enter your full shipping address" required></textarea>
+    </div>
+
+    <div class="mb-8">
+      <label class="block text-sm font-bold mb-2">Payment Method</label>
+      <select name="paymentMethod" class="w-full border-2 border-gray-300 p-3 rounded-lg outline-none focus:border-blue-500 transition">
+        <option value="Credit Card">Credit Card (Ending in 4242)</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Apple Pay">Apple Pay</option>
+      </select>
+    </div>
+
+    <div class="bg-gray-50 p-4 rounded-lg mb-8 border border-gray-200 flex justify-between items-center">
+      <span class="font-bold text-gray-700">Total Amount to be Charged:</span>
+      <span class="text-3xl font-black text-gray-900" th:text="'$' + ${total}"></span>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-lg py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+      <i class="fa-solid fa-check-circle"></i> Confirm & Place Order
+    </button>
+  </form>
+</div>
+</body>
+</html>

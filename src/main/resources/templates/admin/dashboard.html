@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Seller Central</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+<nav class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-md">
+  <h1 class="font-bold text-xl"><i class="fa-solid fa-store mr-2"></i>Seller Central</h1>
+  <form th:action="@{/logout}" method="post"><button class="bg-blue-800 px-4 py-2 rounded">Log Out</button></form>
+</nav>
+<div class="max-w-7xl mx-auto p-6">
+
+  <!-- Metrics Section -->
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-white p-6 rounded shadow border-l-4 border-blue-500">
+      <p class="text-gray-500 font-bold uppercase text-sm">Products Listed</p>
+      <p class="text-3xl font-black text-gray-800" th:text="${listed}">0</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow border-l-4 border-yellow-500">
+      <p class="text-gray-500 font-bold uppercase text-sm">Units Shipped</p>
+      <p class="text-3xl font-black text-gray-800" th:text="${shipped}">0</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow border-l-4 border-green-500">
+      <p class="text-gray-500 font-bold uppercase text-sm">Total Net Profit</p>
+      <p class="text-3xl font-black text-green-600" th:text="'$' + ${profit}">$0.00</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded shadow p-4">
+    <h2 class="text-xl font-bold mb-4">Inventory Management</h2>
+    <table class="w-full text-left">
+      <thead class="bg-gray-50"><th class="p-3">Product Name</th><th class="p-3">Category</th><th class="p-3">Price</th><th class="p-3">Stock</th></thead>
+      <tbody>
+      <tr th:each="product : ${products}" class="border-t">
+        <td class="p-3 font-semibold" th:text="${product.name}">Name</td>
+        <td class="p-3" th:text="${product.category}">Category</td>
+        <td class="p-3 text-green-600 font-bold" th:text="'$' + ${product.price}">$0.00</td>
+        <td class="p-3" th:text="${product.stockQuantity}">0</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
