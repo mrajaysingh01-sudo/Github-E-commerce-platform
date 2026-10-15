@@ -58,7 +58,7 @@ Github-E-commerce-platform/
 ├── package.json            # Root package.json for running everything at once!
 ├── .env                    # Environment variables (Root)
 └── README.md
-⚙️ Getting Started & All-in-One Installation
+⚙️ Getting Started & All-in-One
 This project is configured to let you install and run everything from the root directory without opening multiple terminals.
 Prerequisites
 Node.js (v16+ recommended)
