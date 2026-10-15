@@ -35,7 +35,7 @@ Markdown
 
 ---
 
-## 📁 Project Structure
+🛍️ E-Commerce Platform
 
 ```text
 Github-E-commerce-platform/
